@@ -1,4 +1,4 @@
-# MeatApp - Restaurante
+# MeatApp - TypeScript / Angular
 
 # Instalação
 
