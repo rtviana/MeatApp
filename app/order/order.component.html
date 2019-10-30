@@ -1,0 +1,129 @@
+<!--INICIO DO CONTEUDO-->
+<section class="content-header">
+</section>
+
+<section class="content">
+  <section class="invoice">
+
+    <!-- Desabilitar a validacao de formularios do browser-->
+    <!-- Experiencia comum em todos os navegadores-->
+    <form [formGroup]="orderForm" novalidate>
+          <div class="row">
+            <div class="col-xs-12">
+              <h2 class="page-header">
+                <i class="fa fa-shopping-cart"></i> Finalize o seu pedido
+              </h2>
+            </div>
+          </div>            
+          
+          <div class="row">
+
+              <div class="col-xs-12">
+              <p class="lead">Seus dados:</p>
+              </div>
+              
+              <div class="col-sm-12 col-xs-3">
+                <span class="help-block pull-right has-error-bloack" *ngIf="orderForm.hasError('emailsNotMatch')"><i class="fa fa-remove">Emails não conferem</i></span>
+              </div>
+          
+              <div class="col-sm-6 col-xs-12">
+                <mt-input-container errorMessage="Campo obrigatório - 5 caracteres" label="Nome">
+                <input class="form-control" formControlName="name" placeholder="Nome">
+              </mt-input-container>
+              </div>
+
+              <div class="col-sm-3 col-xs-6">
+                  <mt-input-container errorMessage="E-mail invalido" label="E-mail">
+                  <input type="text" class="form-control" formControlName="email" placeholder="E-mail">
+                  </mt-input-container>               
+              </div>
+
+              <div class="col-sm-3 col-xs-6">
+                  <mt-input-container errorMessage="E-mail invalido" label="E-mail">
+                  <input type="text" formControlName="emailConfirmation" class="form-control" placeholder="Confirmação de e-mail">
+                  </mt-input-container>               
+              </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="col-xs-12">
+                <p class="lead">Endereço de Entrega:</p>
+            </div>
+
+            <div class="col-sm-6 col-xs-12">
+                <mt-input-container errorMessage="Digitar ao menos 5 caracteres" label="Endereço">
+                <input formControlName="address" class="form-control" placeholder="Endereço">
+                </mt-input-container>
+            </div>
+
+            <div class="col-sm-2 col-xs-6">
+                <mt-input-container errorMessage="Número Obrigatório">
+                <input type="number" formControlName="number" class="form-control" pattern="^[0-9]*$" placeholder="Número">
+                </mt-input-container>             
+            </div>
+
+            <div class="col-sm-3 col-xs-6">            
+                <mt-input-container>
+                <input type="text" class="form-control" formControlName="optionAddress" placeholder="Complemento">
+                </mt-input-container>
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+
+          <!-- Table row -->
+          <div class="row">
+            
+            <div class="col-xs-12">
+                <p class="lead">Itens do Pedido:</p>
+            </div>
+           
+            <mt-order-items [items]="cartItems()"
+                            (increaseQty)="increaseQty($event)"
+                            (decreaseQty)="decreaseQty($event)"
+                            (remove)="remove($event)"></mt-order-items>
+
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+
+          <div class="row">
+            <!-- accepted payments column -->
+            <div class="col-sm-6 col-xs-12">
+              <p class="lead">Formas de Pagamento:</p>
+
+                <div class="form-group">
+                   
+                  <!--Passando as opçoes-->
+                  <mt-radio [options]="paymentOptions" formControlName="paymentOption" ></mt-radio>
+
+                </div>
+
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-6 col-xs-12">
+              <p class="lead">Frete e Total:</p>
+            
+            <mt-delivery-costs [delivery]="delivery"
+                               [itemsValue]="itemsValue()">
+            </mt-delivery-costs>
+
+            </div>
+            <!-- /.col -->
+          </div>
+
+        </form>
+
+        <div class="row">
+            <div class="col-xs-12">
+              <button (click)="checkOrder(orderForm.value)" class="btn btn-success pull-right"
+                [disabled]="!orderForm.valid || cartItems().length === 0">
+                  <i class="fa fa-credit-card"></i> Concluir Pedido
+              </button>
+            </div>
+          </div>
+    </section>
+</section>
+<!-- FIM DO CONTEUDO-->
